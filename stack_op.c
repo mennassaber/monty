@@ -1,42 +1,44 @@
 #include "monty.h"
 
 /**
- * sub_nodes - Subtracts the top two elements of the stack.
+ * mul_nodes - Adds the top two elements of the stack.
  * @stack: Pointer to a pointer pointing to top node of the stack.
- * @line_number: Integer representing the line number of of the opcode.
+ * @line_number: Interger representing the line number of of the opcode.
  */
-void sub_nodes(stack_t **stack, unsigned int line_number)
+void mul_nodes(stack_t **stack, unsigned int line_number)
 {
-	int diff;
+	int sum;
 
 	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
-		more_err(8, line_number, "sub");
+		more_err(8, line_number, "mul");
 
 	(*stack) = (*stack)->next;
-	diff = (*stack)->prev->n - (*stack)->n; // Changed the subtraction order
-	(*stack)->n = diff;
+	sum = (*stack)->n * (*stack)->prev->n;
+	(*stack)->n = sum;
 	free((*stack)->prev);
 	(*stack)->prev = NULL;
 }
 
+
 /**
- * div_nodes - Divides the top two elements of the stack.
+ * mod_nodes - Adds the top two elements of the stack.
  * @stack: Pointer to a pointer pointing to top node of the stack.
- * @line_number: Integer representing the line number of of the opcode.
+ * @line_number: Interger representing the line number of of the opcode.
  */
-void div_nodes(stack_t **stack, unsigned int line_number)
+void mod_nodes(stack_t **stack, unsigned int line_number)
 {
-	int result;
+	int sum;
 
 	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
-		more_err(8, line_number, "div");
+
+		more_err(8, line_number, "mod");
+
 
 	if ((*stack)->n == 0)
 		more_err(9, line_number);
 	(*stack) = (*stack)->next;
-	result = (*stack)->prev->n / (*stack)->n; // Division operation
-	(*stack)->n = result;
+	sum = (*stack)->n % (*stack)->prev->n;
+	(*stack)->n = sum;
 	free((*stack)->prev);
 	(*stack)->prev = NULL;
 }
-

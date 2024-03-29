@@ -1,9 +1,11 @@
 #include "monty.h"
+
 /**
- * open_file - Opens a file
- * @file_name: The file pathname
+ * open_file - opens a file
+ * @file_name: the file namepath
  * Return: void
  */
+
 void open_file(char *file_name)
 {
 	FILE *fd = fopen(file_name, "r");
@@ -17,8 +19,8 @@ void open_file(char *file_name)
 
 
 /**
- * read_file - Reads a file
- * @fd: Pointer to file descriptor
+ * read_file - reads a file
+ * @fd: pointer to file descriptor
  * Return: void
  */
 
@@ -39,9 +41,9 @@ void read_file(FILE *fd)
 /**
  * parse_line - Separates each line into tokens to determine
  * which function to call
- * @buffer: Line from the file
- * @line_number: Line number
- * @format:  Storage format. If 0 Nodes will be entered as a stack.
+ * @buffer: line from the file
+ * @line_number: line number
+ * @format:  storage format. If 0 Nodes will be entered as a stack.
  * if 1 nodes will be entered as a queue.
  * Return: Returns 0 if the opcode is stack. 1 if queue.
  */
@@ -64,20 +66,20 @@ int parse_line(char *buffer, int line_number, int format)
 	if (strcmp(opcode, "queue") == 0)
 		return (1);
 
-	find_function(opcode, value, line_number, format);
+	find_func(opcode, value, line_number, format);
 	return (format);
 }
 
 /**
- * find_function - Find the appropriate function for the opcode
- * @opcode: Opcode
- * @value: Argument of opcode
- * @format:  Storage format. If 0 Nodes will be entered as a stack.
- * @ln: Line number
+ * find_func - find the appropriate function for the opcode
+ * @opcode: opcode
+ * @value: argument of opcode
+ * @format:  storage format. If 0 Nodes will be entered as a stack.
+ * @ln: line number
  * if 1 nodes will be entered as a queue.
  * Return: void
  */
-void find_function(char *opcode, char *value, int ln, int format)
+void find_func(char *opcode, char *value, int ln, int format)
 {
 	int i;
 	int flag;
@@ -108,7 +110,7 @@ void find_function(char *opcode, char *value, int ln, int format)
 	{
 		if (strcmp(opcode, func_list[i].opcode) == 0)
 		{
-			call_function(func_list[i].f, opcode, value, ln, format);
+			call_fun(func_list[i].f, opcode, value, ln, format);
 			flag = 0;
 		}
 	}
@@ -116,16 +118,17 @@ void find_function(char *opcode, char *value, int ln, int format)
 		err(3, ln, opcode);
 }
 
+
 /**
- * call_function - Calls the required function.
+ * call_fun - Calls the required function.
  * @func: Pointer to the function that is about to be called.
- * @op: String representing the opcode.
- * @val: String representing a numeric value.
- * @ln: Line number for the instruction.
+ * @op: string representing the opcode.
+ * @val: string representing a numeric value.
+ * @ln: line numeber for the instruction.
  * @format: Format specifier. If 0 Nodes will be entered as a stack.
  * if 1 nodes will be entered as a queue.
  */
-void call_function(op_func func, char *op, char *val, int ln, int format)
+void call_fun(op_func func, char *op, char *val, int ln, int format)
 {
 	stack_t *node;
 	int flag;
@@ -154,66 +157,4 @@ void call_function(op_func func, char *op, char *val, int ln, int format)
 	}
 	else
 		func(&head, ln);
-}
-Modified main.c:
-c
-Copy code
-/* Change "Plagiarism" to "Copying" in comments */
-
-#include "monty.h"
-stack_t *head = NULL;
-
-/**
- * main - Entry point
- * @argc: Arguments count
- * @argv: List of arguments
- * Return: Always 0
- */
-
-int main(int argc, char *argv[])
-{
-	if (argc != 2)
-	{
-		fprintf(stderr, "USAGE: monty file\n");
-		exit(EXIT_FAILURE);
-	}
-	open_file(argv[1]);
-	free_nodes();
-	return (0);
-}
-
-/**
- * create_node - Creates a node.
- * @n: Number to go inside the node.
- * Return: Upon success a pointer to the node. Otherwise NULL.
- */
-stack_t *create_node(int n)
-{
-	stack_t *node;
-
-	node = malloc(sizeof(stack_t));
-	if (node == NULL)
-		err(4);
-	node->next = NULL;
-	node->prev = NULL;
-	node->n = n;
-	return (node);
-}
-
-/**
- * free_nodes - Frees nodes in the stack.
- */
-void free_nodes(void)
-{
-	stack_t *tmp;
-
-	if (head == NULL)
-		return;
-
-	while (head != NULL)
-	{
-		tmp = head;
-		head = head->next;
-		free(tmp);
-	}
 }

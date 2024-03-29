@@ -1,11 +1,11 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "monty.h"
-#include <stdarg.h> // Include stdarg.h for va_list, etc.
-
+#include <stdarg.h>
 void err(int error_code, ...) {
     va_list ag;
     char *op;
     int l_num;
-
     va_start(ag, error_code);
     switch (error_code) {
         case 1:
@@ -28,16 +28,14 @@ void err(int error_code, ...) {
         default:
             break;
     }
-    va_end(ag); // Clean up variable argument list
+    va_end(ag);
     free_nodes();
     exit(EXIT_FAILURE);
 }
-
 void more_error(int error_code, ...) {
     va_list ag;
     char *op;
     int l_num;
-
     va_start(ag, error_code);
     switch (error_code) {
         case 6:
@@ -47,25 +45,23 @@ void more_error(int error_code, ...) {
             fprintf(stderr, "L%d: can't pop an empty stack\n", va_arg(ag, int));
             break;
         case 8:
-            l_num = va_arg(ag, int); // Change to int from unsigned int
+            l_num = va_arg(ag, int);
             op = va_arg(ag, char *);
             fprintf(stderr, "L%d: can't %s, stack too short\n", l_num, op);
             break;
         case 9:
-            fprintf(stderr, "L%d: division by zero\n", va_arg(ag, int)); // Change to int from unsigned int
+            fprintf(stderr, "L%d: division by zero\n", va_arg(ag, int));
             break;
         default:
             break;
     }
-    va_end(ag); // Clean up variable argument list
+    va_end(ag);
     free_nodes();
     exit(EXIT_FAILURE);
 }
-
 void string_err(int error_code, ...) {
     va_list ag;
     int l_num;
-
     va_start(ag, error_code);
     l_num = va_arg(ag, int);
     switch (error_code) {
@@ -78,7 +74,7 @@ void string_err(int error_code, ...) {
         default:
             break;
     }
-    va_end(ag); // Clean up variable argument list
+    va_end(ag);
     free_nodes();
     exit(EXIT_FAILURE);
 }
